@@ -13,7 +13,7 @@
 	<link rel="icon" href="http://medd.in/tests/files/2015/10/cropped-favicon-192x192.png" sizes="192x192">
 	
 	<link rel="stylesheet" href="../../css/materialize.min.css"/>
-​
+
 	<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
 	<link rel="stylesheet" href="../../css/style.css">
 </head>
@@ -23,12 +23,31 @@
 	  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
 	  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
 	  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
-​
+
 	  ga('create', 'UA-63319268-1', 'auto');
 	  ga('send', 'pageview');
 	</script>
 <body>
 <div class="container container-80 ">
+	 <?php
+    // Initiate curl
+	$ch = curl_init('http://api.medd.in/api/healthPackages/get?publish=true&city=mumbai'); 
+	// Disable SSL verification
+	curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
+	// Will return the response, if false it print the response
+	curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+	// Execute
+	$result=curl_exec($ch);
+	// Closing
+	curl_close($ch);
+	// Will decode the json
+	$b=json_decode($result, true);
+	// echo $b["data"]
+	$n=$b["data"][0];
+	$not=$n["num_tests"];//not stores the number of tests.
+	// echo $n."<br>";
+    ?>
+
 	<div class="row">
 		<br>
 		<div class="col l5 hide-on-med-and-down">
@@ -38,16 +57,20 @@
 			<span class="white-text">.</span>
 		</div>
 		<div class="col l6 m12 s12">
-			<div class="title font-24 bold">Aarogyam 1.0 by Thyrocare in Mumbai</div>
-			<div class="subtitle font-16 grey-text">31 Blood Tests Included in the Package (31 parameters)</div>
+			<div class="title font-24 bold">
+			<div class="title font-24 bold"><?php echo $n["name"]; ?> by <?php echo $n["main_lab"]; ?>   in <?php echo $n["city"]; ?> </div>
+			<div class="subtitle font-16 grey-text"><?php echo $not; ?> Blood Tests Included in the Package (<?php echo $not; ?> parameters)</div>
 			<br>
 			<div class="specs">
 				<div>
 					<i class="material-icons">access_time</i> Reporting time: 24 hours
 				</div>
-				<div>
-					<i class="material-icons">directions_car</i> Free home sample collection
-				</div>
+				<?php
+				if($n["home_collection"])
+				   echo   "<div>
+					      <i class=\"material-icons\">directions_car</i> Free home sample collection
+				          </div>" ;
+                ?>
 				<div>
 					<i class="material-icons">content_copy</i> Free e-Report will be emailed
 				</div>
@@ -59,7 +82,13 @@
 			<div class="row">
 				<div class="col l5 m6 s6">
 					<div class="medd-blue-text bold">Samples Collected</div>
-					<div class="font-12 grey-text text-darken-2"> &middot; Blood</div>
+					<?php
+                       foreach ($n["samples"] as $key => $value){
+ 							if($value)
+ 								echo "<div class=\"font-12 grey-text text-darken-2\"> &middot; ".$key."</div>";
+
+                       }
+                       ?>
 				</div>
 				<div class="col l5 m6 s6">
 					<div class="medd-blue-text bold">Prerequisites</div>
@@ -71,13 +100,13 @@
 				<div>
 					<!-- <span class="bold font-20">Price</span>
 					<span class=""></span> -->
-​
+
 					<span class="grey-text font-12">
-						List Price : <span class="strikethrough">Rs. 530</span>
-						<span class="medd-blue-text">12% Off</span>					
+						List Price : <span class="strikethrough">Rs. <?php echo $n["price"]["list"]; ?></span>
+						<span class="medd-blue-text"><?php echo round(($n["price"]["list"]-$n["price"]["medd"])*100/$n["price"]["list"]); ?>% Off</span>					
 					</span>
 					<br>
-					<span class="font-24">Medd Price : Rs.  445/-</span>
+					<span class="font-24">Medd Price : Rs.  <?php echo $n["price"]["medd"]; ?>/-</span>
 				</div>
 				<button class="btn waves-effect waves-light medd-blue">
 					Book Now
@@ -151,46 +180,19 @@
 			<div class="font-20 medd-blue-text">Test Details</div>
 			<div class="row">
 				<div class="col s12">
-					<div class="grey lighten-2">Diabetes Profile - 2 Tests</div>
-					<div class="row">
-						<div class="col l4"><a href="http://medd.in/tests/averag-blood-glucose/" target="_blank">Averag Blood Glucose (ABG)</a></div>
-						<div class="col l4"><a href="http://medd.in/tests/hba1c/" target="_blank">HbA1c </a></div>
-					</div>
-					<div class="grey lighten-2">Thyroid Profile (T3 T4 TSH) - 3 Tests</div>
-					<div class="row">
-						<div class="col l4"><a href="http://medd.in/tests/tsh/" target="_blank">Thyroid Stimulating Hormone (TSH)</a></div>
-					</div>
-					<div class="grey lighten-2">Complete Hemogram - 28 Tests</div>
-					<div class="row">
-						<div class="col l4"><a href="http://medd.in/tests/complete-hemogram/" target="_blank">BASOPHILS</a></div>
-						<div class="col l4"><a href="http://medd.in/tests/complete-hemogram/" target="_blank">BASOPHILS - ABSOLUTE COUNT </a></div>
-						<div class="col l4"><a href="http://medd.in/tests/complete-hemogram/" target="_blank">EOSINOPHILS </a></div>
-						<div class="col l4"><a href="http://medd.in/tests/complete-hemogram/" target="_blank">EOSINOPHILS - ABSOLUTE COUNT </a></div>
-						<div class="col l4"><a href="http://medd.in/tests/complete-hemogram/" target="_blank">HEMATOCRIT(PCV) </a></div>
-						<div class="col l4"><a href="http://medd.in/tests/complete-hemogram/" target="_blank">HEMOGLOBIN </a></div>
-						<div class="col l4"><a href="http://medd.in/tests/complete-hemogram/" target="_blank">IMMATURE GRANULOCYTE PERCENTAGE(IG%) </a></div>
-						<div class="col l4"><a href="http://medd.in/tests/complete-hemogram/" target="_blank">IMMATURE GRANULOCYTES(IG) </a></div>
-						<div class="col l4"><a href="http://medd.in/tests/complete-hemogram/" target="_blank">LYMPHOCYTE PERCENTAGE </a></div>
-						<div class="col l4"><a href="http://medd.in/tests/complete-hemogram/" target="_blank">LYMPHOCYTES - ABSOLUTE COUNT </a></div>
-						<div class="col l4"><a href="http://medd.in/tests/complete-hemogram/" target="_blank">MEAN CORP.HEMO.CONC(MCHC) </a></div>
-						<div class="col l4"><a href="http://medd.in/tests/complete-hemogram/" target="_blank">MEAN CORPUSCULAR HEMOGLOBIN(MCH) </a></div>
-						<div class="col l4"><a href="http://medd.in/tests/complete-hemogram/" target="_blank">MEAN CORPUSCULAR VOLUME(MCV) </a></div>
-						<div class="col l4"><a href="http://medd.in/tests/complete-hemogram/" target="_blank">MEAN PLATELET VOLUME(MPV) </a></div>
-						<div class="col l4"><a href="http://medd.in/tests/complete-hemogram/" target="_blank">MONOCYTES </a></div>
-						<div class="col l4"><a href="http://medd.in/tests/complete-hemogram/" target="_blank">MONOCYTES - ABSOLUTE COUNT </a></div>
-						<div class="col l4"><a href="http://medd.in/tests/complete-hemogram/" target="_blank">NEUTROPHILS </a></div>
-						<div class="col l4"><a href="http://medd.in/tests/complete-hemogram/" target="_blank">NEUTROPHILS - ABSOLUTE COUNT </a></div>
-						<div class="col l4"><a href="http://medd.in/tests/complete-hemogram/" target="_blank">NUCLEATED RED BLOOD CELLS </a></div>
-						<div class="col l4"><a href="http://medd.in/tests/complete-hemogram/" target="_blank">NUCLEATED RED BLOOD CELLS % </a></div>
-						<div class="col l4"><a href="http://medd.in/tests/complete-hemogram/" target="_blank">PLATELET COUNT </a></div>
-						<div class="col l4"><a href="http://medd.in/tests/complete-hemogram/" target="_blank">PLATELET DISTRIBUTION WIDTH(PDW)</a></div>
-						<div class="col l4"><a href="http://medd.in/tests/complete-hemogram/" target="_blank">PLATELET TO LARGE CELL RATIO(PLCR)</a> </div>
-						<div class="col l4"><a href="http://medd.in/tests/complete-hemogram/" target="_blank">PLATELETCRIT(PCT) </a></div>
-						<div class="col l4"><a href="http://medd.in/tests/complete-hemogram/" target="_blank">RED CELL DISTRIBUTION WIDTH (RDW-CV) </a></div>
-						<div class="col l4"><a href="http://medd.in/tests/complete-hemogram/" target="_blank">RED CELL DISTRIBUTION WIDTH - SD(RDW-SD) </a></div>
-						<div class="col l4"><a href="http://medd.in/tests/complete-hemogram/" target="_blank">TOTAL LEUCOCYTES COUNT </a></div>
-						<div class="col l4"><a href="http://medd.in/tests/complete-hemogram/" target="_blank">TOTAL RBC </a></div>
-					</div>
+				<?php
+				$i=1;
+				foreach ($n["testgroups"] as $key => $value) {
+					echo "<div class=\"grey lighten-2\">".$i.". ".$n["testgroups"][$key]["name"]."</div><br>";$i++;
+					foreach ($n["testgroups"][$key]["tests"] as $key1 => $value1) {
+						echo "<div class=\"row\">
+						       <div class=\"col l4\">".$n["testgroups"][$key]["tests"][$key1]."</div>  
+					          </div>";
+					//here in place of $key1 in "$n["testgroups"][$key]["tests"][$key1]" replace by what the test name is associated with in the array.
+					}
+					
+				}
+				?>
 					
 				</div>
 			</div>
