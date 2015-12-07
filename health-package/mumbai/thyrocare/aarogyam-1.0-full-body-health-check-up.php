@@ -186,12 +186,13 @@
 				$i=1;
 				foreach ($n["testgroups"] as $key => $value) {
 					echo "<div class=\"grey lighten-2\">".$i.". ".$n["testgroups"][$key]["name"]."</div><br>";$i++;
-					foreach ($n["testgroups"][$key]["tests"] as $key1 => $value1) {
-						echo "<div class=\"row\">
-						       <div class=\"col l4\">".$n["testgroups"][$key]["tests"][$key1]."</div>  
-					          </div>";
+						echo "<div class=\"row\">";
+						foreach ($n["testgroups"][$key]["tests"] as $key1 => $value1) {
+						       echo "<div class=\"col l4\">".$n["testgroups"][$key]["tests"][$key1]["name"]."</div> " ;
+						}
+					    echo   "</div>";
 					//here in place of $key1 in "$n["testgroups"][$key]["tests"][$key1]" replace by what the test name is associated with in the array.
-					}
+					
 					
 				}
 				?>

@@ -6,7 +6,7 @@
 	<meta name="author" content="HolaMed Healthcare Technologies / Medd.in">
 	<meta name="description" content="Aarogyam 1.7 is a full body health checkup offered by Thyrocare.">
 	<!-- <base href="/"></base> -->
-	<title>Aarogyam 1.0 - BAsic Health Screening By Thyrocare in Mumbai</title>
+	<title>Health-Care</title>
 	<!-- CSS -->
 	<!-- <link rel="shortcut icon" href="favicon.png" type="image/x-icon"/> -->
 	<link rel="icon" href="http://medd.in/tests/files/2015/10/cropped-favicon-32x32.png" sizes="32x32">
@@ -23,12 +23,36 @@
 	  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
 	  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
 	  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
 	  ga('create', 'UA-63319268-1', 'auto');
 	  ga('send', 'pageview');
 	</script>
 <body>
+<?php include 'header.php'; ?>
 <div class="container container-80 ">
-    <?php
+	 <?php
+	 if(isset($_GET["name"]))
+	 {
+    $name = $_GET["name"];
+    $name=strtolower($name);
+	$name=str_replace("_", " ", $name);
+	 } 
+	 if(isset($_GET["main_lab"]))
+	 {
+      $lname = $_GET["main_lab"];
+      $lname=strtolower($lname);
+	$lname=str_replace("_", " ", $lname);
+	 } 
+	 if(isset($_GET["city"]))
+	 {
+	 	$cname=$_GET["city"];
+	 	$cname=strtolower($cname);
+	    $cname=str_replace("_", " ", $cname);
+	 }
+	 if(isset($_GET["value"]))
+	 {
+	 	$val=$_GET["value"];
+	 }
     // Initiate curl
 	$ch = curl_init('http://api.medd.in/api/healthPackages/get?publish=true&city=mumbai'); 
 	// Disable SSL verification
@@ -41,21 +65,45 @@
 	curl_close($ch);
 	// Will decode the json
 	$b=json_decode($result, true);
-	// echo $b["data"]
-	$n=$b["data"][5];
+    if(is_null($val)){
+	for ($i=0; $i < sizeof($b["data"]); $i++) {
+		if(strcasecmp($b["data"][$i]["name"], $name)==0)
+			{
+				if(strcasecmp($b["data"][$i]["city"], $cname)==0){
+					if(strcasecmp($b["data"][$i]["main_lab"], $lname)==0)
+					{
+						$val=$i;
+					}
+				}
+			}
+	}}
+    if(is_null($val)){
+    	header("Location:http://localhost/hello.php");
+        exit();
+    }
+	$n=$b["data"][$val];
+	$packname=$n["name"];
+	$packname=strtolower($packname);
+	$packname=str_replace(" ", "_", $packname);
+	$labname=$n["main_lab"];
+	$labname=strtolower($labname);
+	$labname=str_replace(" ", "_", $labname);
+	$city=$n["city"];
+	$city=strtolower($city);
+	$city=str_replace(" ", "_", $city);
 	$not=$n["num_tests"];//not stores the number of tests.
-	// echo $n."<br>";
     ?>
+
 	<div class="row">
 		<br>
 		<div class="col l5 hide-on-med-and-down">
-			<img src="../../images/full-body.jpg" width="100%;">
+			<img src=<?php echo $n["cover"]["image"]; ?> width="100%;">
 		</div>
 		<div class="col l1 hide-on-med-and-down">
 			<span class="white-text">.</span>
 		</div>
 		<div class="col l6 m12 s12">
-			<div class="title font-24 bold"><?php echo $n["name"]; ?> by <?php echo $n["main_lab"]; ?>  in <?php echo $n["city"]; ?> </div>
+			<div class="title font-24 bold"><?php echo $n["name"]; ?> by <?php echo $n["main_lab"]; ?>   in <?php echo $n["city"]; ?> </div>
 			<div class="subtitle font-16 grey-text"><?php echo $not; ?> Blood Tests Included in the Package (<?php echo $not; ?> parameters)</div>
 			<br>
 			<div class="specs">
@@ -83,12 +131,9 @@
                        foreach ($n["samples"] as $key => $value){
  							if($value)
  								echo "<div class=\"font-12 grey-text text-darken-2\"> &middot; ".$key."</div>";
+
                        }
-       //                if($n["samples"]["urine"])
-					  //  echo "<div class=\"font-12 grey-text text-darken-2\"> &middot; ".Urine."</div>";
-					  // if($n["samples"]["blood"])
-					  // 	echo "<div class=\"font-12 grey-text text-darken-2\"> &middot; ".Blood."</div>";
-					?>
+                       ?>
 				</div>
 				<div class="col l5 m6 s6">
 					<div class="medd-blue-text bold">Prerequisites</div>
@@ -98,8 +143,6 @@
 			<br>
 			<div>
 				<div>
-					<!-- <span class="bold font-20">Price</span>
-					<span class=""></span> -->
 
 					<span class="grey-text font-12">
 						List Price : <span class="strikethrough">Rs. <?php echo $n["price"]["list"]; ?></span>
@@ -108,9 +151,11 @@
 					<br>
 					<span class="font-24">Medd Price : Rs.  <?php echo $n["price"]["medd"]; ?>/-</span>
 				</div>
+				<a href=<?php echo "\"http://localhost/temp/health-package/".$city."/".$labname."/".$packname."/booking\""; ?> >
 				<button class="btn waves-effect waves-light medd-blue">
 					Book Now
 				</button>
+				</a>
 			</div>
 		</div>
 	</div>
@@ -155,7 +200,7 @@
 			</div>
 			<div class="faq">
 				<div class="question">I am super busy! How long will this take?</div>
-				<div class="answer">The sample will be collected from your home/ office and will take hardly 5 minutes</div>
+				<div class="answer">The sample will be collected from your home/ office and will tae hardly 5 minutes</div>
 			</div>
 		</div>
 		<div class="col l6 m12 s12">
@@ -189,8 +234,6 @@
 						       echo "<div class=\"col l4\">".$n["testgroups"][$key]["tests"][$key1]["name"]."</div> " ;
 						}
 					    echo   "</div>";
-					//here in place of $key1 in "$n["testgroups"][$key]["tests"][$key1]" replace by what the test name is associated with in the array.
-					
 					
 				}
 				?>
@@ -200,6 +243,7 @@
 		</div>
 	</div>
 </div>
+<?php include 'footer.html';?>
 <script type="text/javascript" src="../../js/jquery-2.1.4.min.js"></script>
 <script type="text/javascript" src="../../js/materialize.min.js"></script>
 </body>

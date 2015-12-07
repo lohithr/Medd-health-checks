@@ -1,0 +1,142 @@
+  body {
+      font: 400 15px Lato, sans-serif;
+      line-height: 1.8;
+      color: #000000;
+  }
+  h1 {
+      font-size: 21px;
+  }
+  h2 {
+      font-size: 18px;
+  }
+  h3 {
+      font-size: 15px;
+  }  
+  h4 {
+      font-size: 12px;
+  }
+  h5 {
+      font-size: 09px;
+  }
+  
+  .panel {
+      /*border: 1px solid #15a6ff; */
+      border-radius:0 !important;
+      transition: box-shadow 0.5s;
+      text-align: left;
+      /*padding-left: 40px;*/
+      /*padding-right: 40px;*/
+  }
+  .panel:hover {
+      box-shadow: 5px 0px 40px rgba(0,0,0, .2);
+  }
+  .panel-footer .btn:hover {
+      border: 1px solid #15a6ff;
+      background-color: #fff !important;
+      color: #15a6ff;
+  }
+  .panel-heading {
+      color: #000000 !important;
+      background-color: white !important;
+      padding: 10px;
+      /*border-bottom: 1px solid transparent;*/
+      border-top-left-radius: 0px;
+      border-top-right-radius: 0px;
+      border-bottom-left-radius: 0px;
+      border-bottom-right-radius: 0px;
+      text-align: left;
+  }
+  .panel-heading h2{
+      /*background-color: #15a6ff !important;*/
+      color: #15a6ff ;
+      line-height: 2px;
+  }
+  .panel-heading h3{
+      font-size: 14px;
+  }
+  .panel-footer {
+      background-color: white !important;
+  }
+  .panel-footer h3 {
+      color: black;
+      /*font-size: 28px;*/
+  }
+  .panel-footer h4 {
+      color: #aaa;
+      /*font-size: 14px;*/
+  }
+  .panel-footer .btn {
+      margin: 15px 0;
+      background-color: #15a6ff;
+      color: #fff;
+      float: right;
+  }
+  
+  .row {
+      padding-left: 150px;
+      padding-right: 150px;
+  }
+
+  .navbar {
+      margin-bottom: 0;
+      background-color: #15a6ff;
+      z-index: 9999;
+      border: 0;
+      /*font-size: 12px !important;*/
+      line-height: 1.42857143 !important;
+      letter-spacing: 4px;
+      border-radius: 0;
+      font-family: Montserrat, sans-serif;
+  }
+
+  .strikethrough {
+  text-decoration: line-through;
+  color: #818181;
+  font-size: 12px;
+  }
+
+  .medd-blue-text{
+   color: #818181;
+   font-size: 13px;
+  }
+
+  .navbar li a, .navbar .navbar-brand {
+      color: #fff !important;
+  }
+  .navbar-nav li a:hover, .navbar-nav li.active a {
+      color: #f4511e !important;
+      background-color: #fff !important;
+  }
+  .navbar-default .navbar-toggle {
+      border-color: transparent;
+      color: #fff !important;
+  }
+
+  .text-center h2{
+    font-size: 22px;
+  }
+  .text-center h3{
+    font-size: 17px;
+  }
+
+  footer .glyphicon {
+      /*font-size: 20px;*/
+      margin-bottom: 20px;
+      color: #f4511e;
+  }
+  
+  @media screen and (max-width: 768px) {
+    .col-sm-4 {
+      text-align: center;
+      margin: 25px 0;
+    }
+    .btn-lg {
+        width: 100%;
+        margin-bottom: 35px;
+    }
+  }
+  @media screen and (max-width: 480px) {
+    .logo {
+        font-size: 150px;
+    }
+  }

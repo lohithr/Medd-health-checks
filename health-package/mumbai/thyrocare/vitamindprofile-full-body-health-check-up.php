@@ -23,12 +23,13 @@
 	  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
 	  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
 	  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
 	  ga('create', 'UA-63319268-1', 'auto');
 	  ga('send', 'pageview');
 	</script>
 <body>
 <div class="container container-80 ">
-    <?php
+	 <?php
     // Initiate curl
 	$ch = curl_init('http://api.medd.in/api/healthPackages/get?publish=true&city=mumbai'); 
 	// Disable SSL verification
@@ -42,10 +43,11 @@
 	// Will decode the json
 	$b=json_decode($result, true);
 	// echo $b["data"]
-	$n=$b["data"][5];
+	$n=$b["data"][7];
 	$not=$n["num_tests"];//not stores the number of tests.
 	// echo $n."<br>";
     ?>
+
 	<div class="row">
 		<br>
 		<div class="col l5 hide-on-med-and-down">
@@ -55,7 +57,8 @@
 			<span class="white-text">.</span>
 		</div>
 		<div class="col l6 m12 s12">
-			<div class="title font-24 bold"><?php echo $n["name"]; ?> by <?php echo $n["main_lab"]; ?>  in <?php echo $n["city"]; ?> </div>
+			<div class="title font-24 bold">
+			<div class="title font-24 bold"><?php echo $n["name"]; ?> by <?php echo $n["main_lab"]; ?>   in <?php echo $n["city"]; ?> </div>
 			<div class="subtitle font-16 grey-text"><?php echo $not; ?> Blood Tests Included in the Package (<?php echo $not; ?> parameters)</div>
 			<br>
 			<div class="specs">
@@ -83,12 +86,9 @@
                        foreach ($n["samples"] as $key => $value){
  							if($value)
  								echo "<div class=\"font-12 grey-text text-darken-2\"> &middot; ".$key."</div>";
+
                        }
-       //                if($n["samples"]["urine"])
-					  //  echo "<div class=\"font-12 grey-text text-darken-2\"> &middot; ".Urine."</div>";
-					  // if($n["samples"]["blood"])
-					  // 	echo "<div class=\"font-12 grey-text text-darken-2\"> &middot; ".Blood."</div>";
-					?>
+                       ?>
 				</div>
 				<div class="col l5 m6 s6">
 					<div class="medd-blue-text bold">Prerequisites</div>
@@ -155,7 +155,7 @@
 			</div>
 			<div class="faq">
 				<div class="question">I am super busy! How long will this take?</div>
-				<div class="answer">The sample will be collected from your home/ office and will take hardly 5 minutes</div>
+				<div class="answer">The sample will be collected from your home/ office and will tae hardly 5 minutes</div>
 			</div>
 		</div>
 		<div class="col l6 m12 s12">

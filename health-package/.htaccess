@@ -1,0 +1,12 @@
+RewriteEngine On    # Turn on the rewriting engine
+RewriteRule    ^health-package/?$    index.php    [NC,L]
+
+RewriteRule    ^health-package/([A-Za-z_]+)/?$ index.php?city=$1 [NC,L]
+
+RewriteRule    ^health-package/([A-Za-z_]+)/([A-Za-z_]+)/?$ index.php?city=$1&main_lab=$2 [NC,L]   
+
+RewriteRule    ^health-package/([A-Za-z_]+)/([A-Za-z_]+)/([A-Za-z0-9_.]+)/?$ testcentre.php?city=$1&main_lab=$2&name=$3 [NC,L] 
+
+RewriteRule    ^health-package/([A-Za-z_]+)/([A-Za-z_]+)/([A-Za-z0-9_.]+)/booking/?$ booking.php?city=$1&main_lab=$2&name1=$3 [NC,L]
+
+RewriteRule    ^health-package/([A-Za-z_]+)/([A-Za-z_]+)/([A-Za-z0-9_.]+)/confirmation/?$ confirmation.php?city=$1&main_lab=$2&name=$3 [NC,L]
